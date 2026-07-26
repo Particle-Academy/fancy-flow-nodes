@@ -25,7 +25,12 @@
     "autoload": {
         "psr-4": {
             "FancyFlow\\Nodes\\": "src/",
-            "FancyFlow\\Nodes\\UiEffect\\": "nodes/ui-effect/php/"
+            "FancyFlow\\Nodes\\UiEffect\\": "nodes/ui-effect/php/",
+            "FancyFlow\\Nodes\\GitPrOpen\\": "nodes/git-pr-open/php/",
+            "FancyFlow\\Nodes\\GitPrList\\": "nodes/git-pr-list/php/",
+            "FancyFlow\\Nodes\\GitPrGet\\": "nodes/git-pr-get/php/",
+            "FancyFlow\\Nodes\\GitPrChecks\\": "nodes/git-pr-checks/php/",
+            "FancyFlow\\Nodes\\GitPrCompare\\": "nodes/git-pr-compare/php/"
         }
     },
     "autoload-dev": {

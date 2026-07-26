@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "name": "particle-academy/fancy-flow-nodes",
+  "kind": "@particle-academy/git_pr_compare",
+  "aliases": [
+    "git_pr_compare"
+  ],
+  "configVersion": 1,
+  "title": "Compare Refs",
+  "category": "logic",
+  "description": "Compare two branches or SHAs — commits between them, and which way they diverge.",
+  "ui": [
+    "ui"
+  ],
+  "runtimes": {
+    "ts": {
+      "files": [
+        "js"
+      ],
+      "engine": ">=0.30.0"
+    },
+    "php": {
+      "files": [
+        "php"
+      ],
+      "engine": ">=0.9.0"
+    }
+  },
+  "capabilities": {
+    "gitProvider": "required"
+  },
+  "fixtures": "nodes/git-pr-compare/fixtures/git-pr-compare.json",
+  "sideEffects": "none"
+}

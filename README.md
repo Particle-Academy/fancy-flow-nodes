@@ -34,6 +34,13 @@ Core's 27 builtins ship with the engine and are **not** here — you don't add t
 | Kind | Backends | Replay | What it does |
 |---|---|---|---|
 | `@particle-academy/ui_effect` | js, php | unsafe | Change how a live surface looks — class, CSS variable, inline style. |
+| `@particle-academy/git_pr_open` | js, php | unsafe | Open a pull request from one branch into another. |
+| `@particle-academy/git_pr_list` | js, php | safe | List pull requests, branching on whether any matched. |
+| `@particle-academy/git_pr_get` | js, php | safe | Read one pull request in full. |
+| `@particle-academy/git_pr_checks` | js, php | safe | CI state for a revision — passing / failing / pending / none. |
+| `@particle-academy/git_pr_compare` | js, php | safe | Compare two refs — what's between them, and which way they diverge. |
+
+The five `git_pr_*` nodes wrap `fancy-git-js` / `fancy-git-php`, whose provider contract is **neutral across GitHub, GitLab and Bitbucket** — the same graph runs against any of them. They carry no credentials; a host registers a provider registry once.
 
 Each node's own README is next to its source in [`nodes/`](./nodes).
 

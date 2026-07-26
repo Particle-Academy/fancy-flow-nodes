@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "name": "particle-academy/fancy-flow-nodes",
+  "kind": "@particle-academy/git_pr_list",
+  "aliases": [
+    "git_pr_list"
+  ],
+  "configVersion": 1,
+  "title": "List Pull Requests",
+  "category": "io",
+  "description": "List a repository's pull requests, branching on whether any matched.",
+  "ui": [
+    "ui"
+  ],
+  "runtimes": {
+    "ts": {
+      "files": [
+        "js"
+      ],
+      "engine": ">=0.30.0"
+    },
+    "php": {
+      "files": [
+        "php"
+      ],
+      "engine": ">=0.9.0"
+    }
+  },
+  "capabilities": {
+    "gitProvider": "required"
+  },
+  "fixtures": "nodes/git-pr-list/fixtures/git-pr-list.json",
+  "sideEffects": "none"
+}

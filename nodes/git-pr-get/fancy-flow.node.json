@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "name": "particle-academy/fancy-flow-nodes",
+  "kind": "@particle-academy/git_pr_get",
+  "aliases": [
+    "git_pr_get"
+  ],
+  "configVersion": 1,
+  "title": "Get Pull Request",
+  "category": "io",
+  "description": "Read one pull request — body, state, mergeability, timestamps.",
+  "ui": [
+    "ui"
+  ],
+  "runtimes": {
+    "ts": {
+      "files": [
+        "js"
+      ],
+      "engine": ">=0.30.0"
+    },
+    "php": {
+      "files": [
+        "php"
+      ],
+      "engine": ">=0.9.0"
+    }
+  },
+  "capabilities": {
+    "gitProvider": "required"
+  },
+  "fixtures": "nodes/git-pr-get/fixtures/git-pr-get.json",
+  "sideEffects": "none"
+}

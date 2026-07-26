@@ -1,7 +1,7 @@
 {
   "name": "@particle-academy/fancy-flow-nodes",
-  "version": "0.1.0",
-  "description": "The first-party fancy-flow node marketplace — every published node, one install, one source.",
+  "version": "0.0.0",
+  "description": "The first-party fancy-flow node marketplace — vendored SOURCE, not a published package. `fancy-cli add node` copies a node's ui/ + js/ or php/ into your project.",
   "keywords": [
     "fancy-flow",
     "fancy-flow-node",
@@ -17,36 +17,7 @@
   },
   "homepage": "https://ui.particle.academy/flow",
   "type": "module",
-  "sideEffects": [
-    "*.css"
-  ],
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./ui-effect": {
-      "types": "./dist/ui-effect.d.ts",
-      "import": "./dist/ui-effect.js",
-      "require": "./dist/ui-effect.cjs"
-    },
-    "./ui-effect/effects.css": "./dist/ui-effect/effects.css",
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "dist",
-    "nodes/*/fancy-flow.node.json",
-    "nodes/*/fixtures",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "tsc --noEmit",
@@ -57,7 +28,7 @@
     "@particle-academy/fancy-flow": ">=0.30.0"
   },
   "devDependencies": {
-    "@particle-academy/fancy-flow": "^0.30.0",
+    "@particle-academy/fancy-flow": "^0.32.0",
     "@types/node": "^22.10.0",
     "jsdom": "^26.0.0",
     "tsup": "^8.3.5",
@@ -67,8 +38,5 @@
   "overrides": {
     "esbuild": "^0.28.1"
   },
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  }
+  "private": true
 }

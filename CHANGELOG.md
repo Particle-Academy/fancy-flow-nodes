@@ -13,14 +13,24 @@ is about.
 
 ## [Unreleased]
 
-## [0.1.0] — 2026-07-26
+## 2026-07-26 — vendored source
+
+There are no versions here. Nothing is published: a node reaches consumers the
+moment its manifest is registered and the registry can read this repo. Entries
+are dated, and each says which node it is about.
 
 ### Added
 
-- **The marketplace package itself.** Every first-party fancy-flow node ships
-  from here, so `fancy-cli add node <anything>` resolves to one install instead
-  of a repo and an npm package per node. Each node has a subpath export, so
-  installing the package for one node bundles one node.
+- **The marketplace itself.** Every first-party fancy-flow node lives here, and
+  `fancy-cli add node` **copies** one into a project the way `add <component>`
+  copies a component — source you can read, edit and diff, rather than a
+  dependency hidden in `node_modules` or `vendor`.
+
+  Each node is one directory carrying all three parts: `ui/` (the React kind,
+  copied whichever backend you pick), `js/` and `php/` (the executors). The
+  manifest declares `ui` separately from `runtimes` because the editor is React
+  on every host — a Laravel project needs the React kind and does not need the
+  TypeScript executor.
 
 - **`@particle-academy/ui_effect`** (`./ui-effect`) — change how a live surface
   looks from a workflow. Six operations (add / remove / toggle / replace a

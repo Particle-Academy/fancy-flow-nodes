@@ -1,9 +1,15 @@
 {
     "name": "particle-academy/fancy-flow-nodes",
-    "description": "The first-party fancy-flow node marketplace — the PHP backends. Pairs with the @particle-academy/fancy-flow-nodes npm package, which carries the same nodes' UI.",
-    "keywords": ["fancy-flow", "workflow", "nodes", "marketplace", "laravel"],
+    "description": "The first-party fancy-flow node marketplace — vendored SOURCE, not a published package. `fancy-cli add node --backend=php` copies a node's php/ directory into your app.",
+    "keywords": [
+        "fancy-flow",
+        "workflow",
+        "nodes",
+        "marketplace",
+        "laravel"
+    ],
     "license": "MIT",
-    "type": "library",
+    "type": "project",
     "require": {
         "php": "^8.3",
         "particle-academy/fancy-flow-php": "^0.9"
@@ -25,11 +31,6 @@
     "autoload-dev": {
         "psr-4": {
             "FancyFlow\\Nodes\\Tests\\": "tests/php/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": ["FancyFlow\\Nodes\\Laravel\\FancyFlowNodesServiceProvider"]
         }
     },
     "scripts": {

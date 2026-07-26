@@ -2,34 +2,38 @@
 
 The first-party **node marketplace** for [fancy-flow](https://github.com/Particle-Academy/fancy-flow).
 
-Every published node lives here, in one package. `fancy-cli add node <anything>` resolves to the same install — you don't collect a repo and an npm package per node.
+Every node lives here, and `fancy-cli` **copies** one into your project — source you can read, edit and diff, not a dependency in `node_modules`.
 
 ```bash
 npx fancy-cli@latest add node @particle-academy/ui_effect
 ```
 
+That writes the node's React surface beside your other Fancy components, and its executor for the backend you run:
+
+```
+components/fancy/flow-nodes/ui-effect/ui/kind.ts     the palette entry + config panel
+components/fancy/flow-nodes/ui-effect/js/…           the TypeScript executor   (--backend=js)
+app/Flow/Nodes/ui-effect/php/…                       the PHP executor          (--backend=php)
+```
+
+`--backend` is detected from the project when you omit it; `--backend=none` takes the surface alone, for a project that authors graphs but never runs them. The UI comes down either way, because the editor is React on every host.
+
 ```ts
-// One node — bundles only that node.
-import { uiEffectKind } from "@particle-academy/fancy-flow-nodes/ui-effect";
+import { uiEffectKind } from "@/components/fancy/flow-nodes/ui-effect/ui/kind";
 import { registerNodeKind } from "@particle-academy/fancy-flow/engine";
 
 registerNodeKind(uiEffectKind);
-
-// Or the whole palette.
-import { registerFlowNodes } from "@particle-academy/fancy-flow-nodes";
-
-registerFlowNodes();
 ```
 
-Core's 27 builtins ship with the engine and are **not** here — you don't install those.
+Core's 27 builtins ship with the engine and are **not** here — you don't add those.
 
 ---
 
 ## The nodes
 
-| Kind | Subpath | Runtimes | Replay | What it does |
-|---|---|---|---|---|
-| `@particle-academy/ui_effect` | `./ui-effect` | ts | unsafe | Change how a live surface looks — class, CSS variable, inline style. |
+| Kind | Backends | Replay | What it does |
+|---|---|---|---|
+| `@particle-academy/ui_effect` | js, php | unsafe | Change how a live surface looks — class, CSS variable, inline style. |
 
 Each node's own README is next to its source in [`nodes/`](./nodes).
 
@@ -37,26 +41,27 @@ Each node's own README is next to its source in [`nodes/`](./nodes).
 
 ```
 nodes/<name>/
-  fancy-flow.node.json    the manifest the registry serves
-  fixtures/*.json         golden fixtures — required to publish
-  index.ts                the subpath entry
-  kind.ts                 NodeKindDefinition: palette, config schema, ports
-  executor.ts             what it does
-tests/<name>/             its tests
+  fancy-flow.node.json    the manifest: `ui` + per-runtime `files`
+  fixtures/*.json         golden fixtures — both backends run these
+  ui/                     the React kind
+  js/                     the TypeScript executor
+  php/                    the PHP executor
+tests/<name>/             its TS tests
+tests/php/                its PHP tests
 ```
 
-One directory per node, self-contained. `npm run manifests` validates every one of them through the engine's own validator and prints the paths the registry command consumes.
+One directory per node, carrying all three parts. `npm run manifests` validates every manifest through the engine's own validator and checks that each declared directory exists.
 
 ## Adding a node
 
-1. `nodes/<name>/` with a manifest, fixtures, kind and executor.
-2. Add its entry to `tsup.config.ts` and its subpath to `package.json` `exports`.
-3. Add it to `flowNodeKinds` in `src/index.ts`.
-4. `npm run manifests` — it must validate, name **this** package, and point at an entry the package exports. There are tests for all three; they drift silently otherwise.
-5. Ship, then register it:
+1. `nodes/<name>/` with a manifest, fixtures, and `ui/` + `js/` + `php/`.
+2. `npm run manifests` — it must validate, and every directory it declares must exist.
+3. Register it:
    ```bash
    php artisan flow:register-node nodes/<name>/fancy-flow.node.json   # in px-ui-sandbox
    ```
+
+No build, no version bump, no publish. The files are the node.
 
 ### What a manifest must be honest about
 
@@ -67,7 +72,8 @@ One directory per node, self-contained. `npm run manifests` validates every one 
 
 ## Requirements
 
-- `@particle-academy/fancy-flow` >= 0.30.0 (peer)
+- `@particle-academy/fancy-flow` >= 0.32.0 in the consuming project
+- `particle-academy/fancy-flow-php` >= 0.9.1 for the PHP backends
 
 ## License
 

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { validateNodeManifest } from "@particle-academy/fancy-flow/engine";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { uiEffectExecutor } from "../../nodes/ui-effect/js/executor";
 import { registerUiEffectHost } from "../../nodes/ui-effect/js/host";
@@ -86,17 +86,34 @@ describe("packaging", () => {
   const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "nodes/ui-effect/fancy-flow.node.json"), "utf8"));
   const pkg = JSON.parse(readFileSync(resolve(process.cwd(), "package.json"), "utf8"));
 
-  it("installs as this package, not one of its own", () => {
-    expect(manifest.name).toBe(pkg.name);
+  it("names the source it is vendored from, not a package to install", () => {
+    // Nothing installs this. The name identifies where the files came from.
+    expect(manifest.name).toBe("particle-academy/fancy-flow-nodes");
+    expect(pkg.private).toBe(true);
   });
 
-  it("points at an entry the package actually exports", () => {
-    // ./dist/ui-effect.js is only reachable if "./ui-effect" is exported.
-    const entry = manifest.runtimes.ts.entry;
-    const exported = JSON.stringify(pkg.exports);
+  it("points every declared directory at one that exists", () => {
+    // A manifest naming a directory that isn't there is a node the registry
+    // serves with files missing — and the CLI copies a half node in silence.
+    const declared = [
+      ...(manifest.ui ?? []),
+      ...Object.values(manifest.runtimes as Record<string, { files?: string[] }>).flatMap(
+        (r) => r.files ?? [],
+      ),
+    ];
 
-    expect(entry).toBe("./dist/ui-effect.js");
-    expect(exported).toContain("./dist/ui-effect.js");
+    expect(declared).toEqual(["ui", "js", "php"]);
+    for (const dir of declared) {
+      expect(existsSync(resolve(process.cwd(), "nodes/ui-effect", dir))).toBe(true);
+    }
+  });
+
+  it("keeps the surface out of the backends", () => {
+    // The editor is React on every host: a PHP project needs `ui` and must not
+    // receive the TypeScript executor.
+    expect(manifest.ui).toEqual(["ui"]);
+    expect(manifest.runtimes.ts.files).toEqual(["js"]);
+    expect(manifest.runtimes.php.files).toEqual(["php"]);
   });
 
   it("points at fixtures that exist from the repo root", () => {

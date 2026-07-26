@@ -11,13 +11,11 @@
  * one. Validation is the engine's own — a repo that disagrees with the runtime
  * about what a valid manifest is would ship packages the runtime then refuses.
  */
-import { readdirSync, readFileSync, existsSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { validateNodeManifest } from "@particle-academy/fancy-flow/engine";
 
 const NODES = "nodes";
-const pkg = JSON.parse(readFileSync("package.json", "utf8"));
-
 let failed = false;
 
 for (const dir of readdirSync(NODES, { withFileTypes: true })) {
@@ -33,18 +31,24 @@ for (const dir of readdirSync(NODES, { withFileTypes: true })) {
   const manifest = JSON.parse(readFileSync(path, "utf8"));
   const { ok, problems } = validateNodeManifest(manifest);
 
-  // The check the engine's validator cannot make: every node in this repo ships
-  // in THIS package, and a manifest naming anything else would send `add node`
-  // to install something that does not contain the node.
-  if (manifest.name !== pkg.name) {
-    console.error(`✗ ${dir.name}: name is "${manifest.name}", expected "${pkg.name}"`);
-    failed = true;
+  // The checks the engine's validator cannot make, because they are about this
+  // repo's own layout: every directory a manifest declares has to exist. One
+  // that does not is a node the registry serves with files missing, and the CLI
+  // copies a half node into a project without a word.
+  const declared = [
+    ...(manifest.ui ?? []),
+    ...Object.values(manifest.runtimes ?? {}).flatMap((r) => r.files ?? []),
+  ];
+
+  for (const part of new Set(declared)) {
+    if (!existsSync(join(NODES, dir.name, part))) {
+      console.error(`✗ ${dir.name}: declares "${part}/", which does not exist`);
+      failed = true;
+    }
   }
 
-  // …and that the entry it points at is actually an export of this package.
-  const entry = manifest.runtimes?.ts?.entry;
-  if (entry && !Object.values(pkg.exports ?? {}).some((e) => JSON.stringify(e).includes(entry.replace("./dist/", "")))) {
-    console.error(`✗ ${dir.name}: entry "${entry}" is not reachable through package exports`);
+  if (declared.length === 0) {
+    console.error(`✗ ${dir.name}: declares no source at all — nothing would be copied`);
     failed = true;
   }
 

@@ -5,45 +5,52 @@ the envelope's `AGENTS.md` too.
 
 ## The rule that shapes this repo
 
-**Every published node lives here, in one npm package.** `fancy-cli add node
-<anything>` resolves to the same install. Do not split a node into its own repo
-or its own package — that was tried, and it means a repo, a CI setup, an npm
-Trusted Publisher and a version to track per node, for a seed set of ~11.
+**Nodes are VENDORED SOURCE, not published packages.** `fancy-cli add node`
+copies a node's files into the consumer's project the way `add <component>`
+copies a component's — so a node lands in the app, readable, editable and
+diffable, instead of hidden in `node_modules` or `vendor`.
 
-Each node gets a **subpath export** (`./ui-effect`), so a consumer who installs
-the package for one node bundles one node. The manifest's `entry` field exists
-for exactly this: `name` is the package you install, `entry` is the module
-inside it.
+Nothing here is published. This repo is `private: true` on the npm side and not
+on Packagist; the registry reads these directories and serves the file contents,
+and the CLI writes them.
 
-Core's 27 builtins ship with the engine and are NOT here. You don't install
-those.
+**One node, one source.** Every node is a single directory carrying all three
+parts — surface, JS backend, PHP backend. Do not split a node across repos or
+packages; both were tried and both were wrong.
+
+Core's 27 builtins ship with the engine and are not here.
 
 ## Layout
 
 ```
 nodes/<name>/
-  fancy-flow.node.json    the manifest the registry serves
-  fixtures/*.json         golden fixtures — required to publish
+  fancy-flow.node.json    the manifest: `ui` + per-runtime `files`
+  fixtures/*.json         golden fixtures — both backends run these
   README.md               the node's own docs
-  index.ts                the subpath entry
-  kind.ts                 NodeKindDefinition: palette, config schema, ports
-  executor.ts             what it does
-src/index.ts              the root barrel + registerFlowNodes()
-tests/<name>/             its tests
+  ui/                     the React kind — copied whichever backend is chosen
+  js/                     the TypeScript executor
+  php/                    the PHP executor
+tests/<name>/             its TS tests
+tests/php/                its PHP tests
 scripts/manifests.mjs     validate every manifest; print registry paths
 ```
 
-## Adding a node — four places, all of them
+`ui` sits OUTSIDE `runtimes` on purpose. The editor is React on every host, so a
+Laravel project needs the React kind and does **not** need the TypeScript
+executor. Fold them together and a PHP host either loses its palette entry or
+gains a second implementation of a node it runs once.
 
-1. `nodes/<name>/` — manifest, fixtures, kind, executor, README.
-2. `tsup.config.ts` `entry` **and** `package.json` `exports`. Miss either and
-   the node exists in source and is invisible to consumers.
-3. `flowNodeKinds` in `src/index.ts`.
-4. `npm run manifests`, then register it in the sandbox:
+## Adding a node
+
+1. `nodes/<name>/` — manifest, fixtures, README, and `ui/` + `js/` + `php/`.
+2. `npm run manifests` — it validates through the engine's own validator and
+   checks every declared directory exists. A manifest naming a directory that
+   is not there is a node the registry serves with files missing, and the CLI
+   copies half a node in silence.
+3. Register it in the sandbox:
    `php artisan flow:register-node nodes/<name>/fancy-flow.node.json`.
 
-There are tests asserting a manifest names **this** package and points at an
-entry the package exports, because those two drift silently.
+No build step, no exports map, no version bump. The files ARE the node.
 
 ## What every node here owes
 
@@ -65,9 +72,9 @@ entry the package exports, because those two drift silently.
 
 ## Conventions
 
-- **No runtime dependencies.** `@particle-academy/fancy-flow` is a *peer* and
-  tsup marks it external — bundling it gives a consumer two kind registries, and
-  a node registered in one is invisible to the other.
+- **No runtime dependencies.** `@particle-academy/fancy-flow` is a dev
+  dependency here and a peer in the consumer's project — a node's source imports
+  it, and the consumer already has it.
 - **Import the engine from `/engine`, never `/registry`.** The registry barrel
   re-exports a React component; `/engine` has the same functions React-free
   (0.30.0+). A headless test that imports `/registry` fails a clean install with
@@ -83,15 +90,17 @@ entry the package exports, because those two drift silently.
 ```bash
 npm install
 npm test           # vitest — every node's fixtures + behaviour + packaging
-npm run build      # tsup: one entry per node + the root barrel
 npm run lint       # tsc --noEmit
 npm run manifests  # validate every manifest, print registry paths
 ```
 
-## Publishing
+## Shipping
 
-npm, OIDC / Trusted Publishing. Ship = bump version → update `CHANGELOG.md` in
-the same commit → commit → tag `vX.Y.Z` → push tag → CI publishes. One version
-covers every node in the package; say in the changelog which node changed. Then
-re-register any manifest that changed, and advance the envelope pin. See the
-envelope's `.ai/knowledge/publishing.md`.
+**Nothing is published.** No npm, no Packagist, no tags. A node reaches
+consumers the moment its manifest is registered and the registry can read this
+repo — push to `main`, re-register any manifest that changed, and advance the
+envelope pin.
+
+Production deploys only px-ui-sandbox, so the registry cannot read these
+directories there; the compiled registry artifact carries the file contents,
+the same arrangement the component registry uses.

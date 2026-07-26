@@ -20,7 +20,21 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: npm install
       - run: npm run build
-      # Trusted Publishing (OIDC) — no token. Trusted Publisher configured on
-      # npmjs.com; the bootstrap NPM_TOKEN has been revoked.
+      # ─────────────────────────────────────────────────────────────────────
+      # BOOTSTRAP MODE — remove after the first publish lands.
+      #
+      # npm will not let a Trusted Publisher be configured for a package that
+      # does not exist yet, so the very first publish of a new package needs a
+      # short-lived token. Once @particle-academy/fancy-flow-nodes exists on
+      # npm and its Trusted Publisher is set:
+      #
+      #   1. revoke the bootstrap token
+      #   2. delete the `env:` block below
+      #
+      # …leaving the OIDC-only step every other suite package uses. See
+      # .ai/knowledge/publishing.md in the envelope.
+      # ─────────────────────────────────────────────────────────────────────
       - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx -y npm@11.18.0 publish --provenance --access public

@@ -2,10 +2,10 @@ import { describe, expect, it, vi } from "vitest";
 import { validateNodeManifest } from "@particle-academy/fancy-flow/engine";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { uiEffectExecutor } from "../../nodes/ui-effect/executor";
-import { registerUiEffectHost } from "../../nodes/ui-effect/host";
-import { uiEffectKind, UI_EFFECT_KIND } from "../../nodes/ui-effect/kind";
-import type { UiEffect } from "../../nodes/ui-effect/types";
+import { uiEffectExecutor } from "../../nodes/ui-effect/js/executor";
+import { registerUiEffectHost } from "../../nodes/ui-effect/js/host";
+import { uiEffectKind, UI_EFFECT_KIND } from "../../nodes/ui-effect/ui/kind";
+import type { UiEffect } from "../../nodes/ui-effect/js/types";
 
 const ctx = (config: Record<string, unknown>, inputs: unknown = undefined) =>
   ({

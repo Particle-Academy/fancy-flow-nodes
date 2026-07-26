@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createDomUiEffectHost } from "../../nodes/ui-effect/dom";
+import { createDomUiEffectHost } from "../../nodes/ui-effect/js/dom";
 
 /**
  * The DOM host, against a real document.

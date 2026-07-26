@@ -17,7 +17,9 @@
   },
   "homepage": "https://ui.particle.academy/flow",
   "type": "module",
-  "sideEffects": ["*.css"],
+  "sideEffects": [
+    "*.css"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -48,7 +50,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "tsc --noEmit",
-    "manifests": "node scripts/manifests.mjs"
+    "manifests": "node scripts/manifests.mjs",
+    "test:php": "pest"
   },
   "peerDependencies": {
     "@particle-academy/fancy-flow": ">=0.30.0"

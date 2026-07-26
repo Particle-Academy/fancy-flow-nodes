@@ -11,7 +11,11 @@
  * registerNodeKind(uiEffectKind);   // palette entry + config panel + executor
  * ```
  *
- * In a browser that is the whole setup — the node finds the DOM on its own.
+ * This entry carries the **UI and the JS backend**. The PHP backend is the same
+ * node's `php/` directory, shipped in the Composer package — a Laravel host
+ * installs both: npm for the surface, Composer for the executor.
+ *
+ * In a browser the JS backend needs no setup — it finds the DOM on its own.
  * Anywhere else, register a host that can reach the surface:
  *
  * ```ts
@@ -19,8 +23,8 @@
  * ```
  */
 
-export { uiEffectKind, UI_EFFECT_KIND } from "./kind";
-export { uiEffectExecutor } from "./executor";
-export { createDomUiEffectHost, type DomUiEffectHostOptions } from "./dom";
-export { registerUiEffectHost, getUiEffectHost } from "./host";
-export type { UiEffect, UiEffectOp, UiEffectHost } from "./types";
+export { uiEffectKind, UI_EFFECT_KIND } from "./ui/kind";
+export { uiEffectExecutor } from "./js/executor";
+export { createDomUiEffectHost, type DomUiEffectHostOptions } from "./js/dom";
+export { registerUiEffectHost, getUiEffectHost } from "./js/host";
+export type { UiEffect, UiEffectOp, UiEffectHost } from "./js/types";

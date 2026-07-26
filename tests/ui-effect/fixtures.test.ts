@@ -2,10 +2,10 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { registerNodeKind, runFixtures, type FixtureFile } from "@particle-academy/fancy-flow/engine";
-import { uiEffectKind } from "../../nodes/ui-effect/kind";
-import { uiEffectExecutor } from "../../nodes/ui-effect/executor";
-import { registerUiEffectHost } from "../../nodes/ui-effect/host";
-import type { UiEffect } from "../../nodes/ui-effect/types";
+import { uiEffectKind } from "../../nodes/ui-effect/ui/kind";
+import { uiEffectExecutor } from "../../nodes/ui-effect/js/executor";
+import { registerUiEffectHost } from "../../nodes/ui-effect/js/host";
+import type { UiEffect } from "../../nodes/ui-effect/js/types";
 
 /**
  * The manifest's golden fixtures, run against the real executor.

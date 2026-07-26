@@ -26,6 +26,6 @@ export default defineConfig({
     // Optional effect classes, shipped beside the JS rather than injected —
     // importing CSS from a library entry forces a bundler config on everyone.
     mkdirSync(join("dist", "ui-effect"), { recursive: true });
-    copyFileSync(join("nodes", "ui-effect", "effects.css"), join("dist", "ui-effect", "effects.css"));
+    copyFileSync(join("nodes", "ui-effect", "ui", "effects.css"), join("dist", "ui-effect", "effects.css"));
   },
 });

@@ -2,7 +2,9 @@
   "schemaVersion": 1,
   "name": "@particle-academy/fancy-flow-nodes",
   "kind": "@particle-academy/ui_effect",
-  "aliases": ["ui_effect"],
+  "aliases": [
+    "ui_effect"
+  ],
   "configVersion": 1,
   "title": "UI Effect",
   "category": "io",
@@ -11,6 +13,10 @@
     "ts": {
       "entry": "./dist/ui-effect.js",
       "engine": ">=0.30.0"
+    },
+    "php": {
+      "package": "particle-academy/fancy-flow-nodes:^0.1",
+      "engine": ">=0.9.0"
     }
   },
   "capabilities": {

@@ -39,6 +39,10 @@ Core's 27 builtins ship with the engine and are **not** here — you don't add t
 | `@particle-academy/git_pr_get` | js, php | safe | Read one pull request in full. |
 | `@particle-academy/git_pr_checks` | js, php | safe | CI state for a revision — passing / failing / pending / none. |
 | `@particle-academy/git_pr_compare` | js, php | safe | Compare two refs — what's between them, and which way they diverge. |
+| `@particle-academy/llm_input` | js, php | idempotent | Ask a model to write the form this step pauses on. |
+| `@particle-academy/llm_screen` | js, php | idempotent | Let a model build the interface this step shows. |
+
+The two `llm_*` nodes are the AI pair: `llm_input` for a step that needs **answers**, `llm_screen` for one that needs to **show** something whose shape depends on what the run found. Neither imports a provider SDK — they ship the contract and the checks, and a host registers the model call, the same "shuttle, not an engine" arrangement fancy-flow uses for `LlmClient`. Reach for core's `user_input` first: if you can write the fields down, write them down.
 
 The five `git_pr_*` nodes wrap `fancy-git-js` / `fancy-git-php`, whose provider contract is **neutral across GitHub, GitLab and Bitbucket** — the same graph runs against any of them. They carry no credentials; a host registers a provider registry once.
 

@@ -2,16 +2,71 @@
 
 All notable changes to this project are documented here.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-One version covers every node in the package, so each entry says which node it
-is about.
-
-> **Pre-1.0:** breaking changes land in MINOR releases. Until 1.0 the minor
-> number is not a compatibility promise — read the entry, not the version.
+**Nothing here is published**, so entries are dated rather than versioned: a
+node reaches consumers when its manifest is registered, not when a tag lands.
+Each entry says which node it is about, and a node already copied into a project
+does not change under you — re-run `fancy-cli add node <kind> --overwrite` to
+take an update.
 
 ## [Unreleased]
+
+### Added
+
+- **`llm_input`** — ask a model to write the form a step pauses on, from the
+  run's own data.
+
+  Core's `user_input` pauses on a form somebody wrote at design time, and that
+  stays the right node whenever the questions are known in advance. This one is
+  for when they are not: a triage step whose questions depend on the ticket, a
+  follow-up that asks only for what is still missing.
+
+  It pauses with **the same detail shape `user_input` emits** (`{ title, fields }`,
+  plus `generated: true`), so a host that already renders a paused run renders
+  this with nothing new wired — a generated form is a form, not a new kind of
+  wait.
+
+  A model returns plausible JSON, not correct JSON, so the form is checked
+  before the run parks: no empty forms, no keyless or unlabelled fields, no two
+  fields sharing a key (one silently overwrites the other on submit), no
+  optionless `select`, and every key in `requiredKeys` present — without that
+  last one a downstream node reading `values.email` breaks silently because the
+  model chose `emailAddress`. All problems are reported at once.
+
+- **`llm_screen`** — let a model build the interface a step shows, rendered by
+  fancy-screens' schema surface.
+
+  `<Screen schema={…}>` already maps a JSON page description through a component
+  registry; it had no workflow node reaching it. So a workflow could pause on a
+  form and could not put up a summary, a comparison, or a dashboard over
+  whatever the run found.
+
+  The node contributes what fancy-screens cannot do from where it sits: telling
+  the model which components exist, and **refusing a schema that names one that
+  does not**. fancy-screens renders an unknown name as a visible placeholder —
+  right for a developer typing a schema, wrong for a workflow, where it means an
+  error message is delivered to a person while the run reports success. An
+  unknown name is reported once rather than once per occurrence, followed by a
+  line naming what *is* registered, since the fix is usually the registry.
+
+  First node to declare `fancyDependencies` (fancy-flow 0.33.0+): `fancy-screens`
+  required, `react-fancy` optional. `fancy-cli` 0.5.0+ prints the install routes
+  when you add it.
+
+### Changed
+
+- **`ui_effect`'s README documented the wrong install.** It still described the
+  npm-subpath model — `import … from "@particle-academy/fancy-flow-nodes/ui-effect"`
+  — which the vendored redesign replaced. Nodes are copied into your project;
+  the imports are now the paths the CLI actually writes.
+
+### Fixed
+
+- **`CLAUDE.md` was a stale copy, not a symlink**, so it claimed to symlink
+  `AGENTS.md` while serving the pre-vendoring instructions underneath. Now an
+  actual symlink, as in every other repo.
+
 
 ### Added
 

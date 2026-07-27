@@ -43,11 +43,16 @@ gains a second implementation of a node it runs once.
 ## Adding a node
 
 1. `nodes/<name>/` — manifest, fixtures, README, and `ui/` + `js/` + `php/`.
-2. `npm run manifests` — it validates through the engine's own validator and
+2. `composer.json` `autoload.psr-4` — `FancyFlow\Nodes\<Name>\` →
+   `nodes/<name>/php/`. Per-node namespaces, so two nodes can each ship a `Host`
+   without colliding.
+3. `tests/<name>/fixtures.test.ts` **and** `tests/php/<Name>Test.php`, both
+   running the node's golden fixtures. That pairing IS the parity claim.
+4. `npm run manifests` — it validates through the engine's own validator and
    checks every declared directory exists. A manifest naming a directory that
    is not there is a node the registry serves with files missing, and the CLI
    copies half a node in silence.
-3. Register it in the sandbox:
+5. Register it in the sandbox:
    `php artisan flow:register-node nodes/<name>/fancy-flow.node.json`.
 
 No build step, no exports map, no version bump. The files ARE the node.
@@ -65,10 +70,24 @@ No build step, no exports map, no version bump. The files ARE the node.
    no log line, a green row. That silent success is the failure mode this whole
    suite is arranged against.
 
-3. **The manifest tells the truth.** Claim only runtimes that exist. Say
+3. **Validate BEFORE the side effect.** A node that checks after applying has
+   already changed the page, opened the PR, or put a placeholder on someone's
+   screen. Both fixture suites assert the host was never reached on a rejected
+   case, because "it threw" and "it threw before doing anything" are different
+   claims and only the second one is worth making.
+
+4. **The manifest tells the truth.** Claim only runtimes that exist. Say
    `unsafe-to-replay` if anything about the node isn't idempotent — durable runs
    retry. Declare capabilities so an editor can grey the node out instead of
    letting a run silently no-op. A manifest that overstates is worse than none.
+
+5. **Name Fancy dependencies; never version them.** A node whose source needs a
+   suite package declares it in `fancyDependencies`, so `fancy-cli` can offer the
+   routes that actually exist — npm, Composer, or vendoring — rather than the
+   single one a bare npm name implies. **No ranges anywhere**; the validator
+   rejects them. The suite ships additively and often, and a pin here freezes a
+   consumer on an old surface for a constraint nobody revisits. Compatibility
+   belongs in `runtimes[].engine`, where it can be checked.
 
 ## Conventions
 
@@ -79,9 +98,16 @@ No build step, no exports map, no version bump. The files ARE the node.
   re-exports a React component; `/engine` has the same functions React-free
   (0.30.0+). A headless test that imports `/registry` fails a clean install with
   "Cannot find package 'react'".
+- **A node's `js/` must not import React.** A queue worker runs it. Where a type
+  from a React package is needed, restate it locally — see
+  `nodes/llm-screen/js/types.ts`, which mirrors fancy-screens' `ScreenSchema`
+  structurally rather than importing it.
 - **Fixtures run against the real executor**, with a recording host registered
   in `beforeAll` — not in the `describe` body, which runs during collection and
   leaves no host installed when a case runs.
+- **Fixture hosts answer from config, never from a call counter.** A counter
+  makes every case depend on the order of the ones before it, so reordering the
+  file breaks tests that have nothing to do with the change.
 - **Surface behaviour is tested against a real document** (jsdom), reading the
   element back. A mock that agrees with whatever we wrote proves nothing.
 

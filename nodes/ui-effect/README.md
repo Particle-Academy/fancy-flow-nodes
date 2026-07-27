@@ -2,14 +2,15 @@
 
 `@particle-academy/ui_effect` — change how a **live surface** looks, from a workflow.
 
-Part of [`@particle-academy/fancy-flow-nodes`](../../README.md). Install the package, import the subpath:
+One of the nodes in [`fancy-flow-nodes`](../../README.md). `fancy-cli` **copies** it into your
+project — source you can read, edit and diff, not a dependency in `node_modules`:
 
 ```bash
 npx fancy-cli@latest add node @particle-academy/ui_effect
 ```
 
 ```ts
-import { uiEffectKind } from "@particle-academy/fancy-flow-nodes/ui-effect";
+import { uiEffectKind } from "@/components/fancy/flow-nodes/ui-effect/ui/kind";
 import { registerNodeKind } from "@particle-academy/fancy-flow/engine";
 
 registerNodeKind(uiEffectKind);
@@ -66,7 +67,8 @@ Handles, not selectors, are the contract — the [Fancy component contract](http
 The node never touches the DOM itself. It resolves an *intent* and hands it to a host — the same "shuttle, not an engine" arrangement fancy-flow uses for LLM clients. That is what lets the identical graph run in three places:
 
 ```ts
-import { registerUiEffectHost, createDomUiEffectHost } from "@particle-academy/fancy-flow-nodes/ui-effect";
+import { registerUiEffectHost } from "@/components/fancy/flow-nodes/ui-effect/js/host";
+import { createDomUiEffectHost } from "@/components/fancy/flow-nodes/ui-effect/js/dom";
 
 // Browser: automatic. Register explicitly only to pass options.
 registerUiEffectHost(createDomUiEffectHost({ resolve: (h) => myHandleRegistry.get(h) }));
@@ -84,7 +86,7 @@ registerUiEffectHost({ apply: (e) => applied.push(e) });
 ## Effect classes (optional)
 
 ```ts
-import "@particle-academy/fancy-flow-nodes/ui-effect/effects.css";
+import "@/components/fancy/flow-nodes/ui-effect/ui/effects.css";
 ```
 
 Gives you `ff-fx-glow`, `ff-fx-pulse`, `ff-fx-flash`, `ff-fx-shake`, tinted by `--ff-fx-color`. Nothing in the node depends on this file — your own class beats any of them. Every animation respects `prefers-reduced-motion`, keeping the signal and dropping the motion.

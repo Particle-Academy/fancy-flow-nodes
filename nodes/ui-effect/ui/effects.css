@@ -5,7 +5,7 @@
  * a `durationMs`. Nothing in the node depends on this file — it is a starting
  * set, not an API, and your own class beats any of them.
  *
- *   import "@particle-academy/fancy-flow-node-ui-effect/effects.css";
+ *   import "@/components/fancy/flow-nodes/ui-effect/ui/effects.css";
  *
  * Every animation respects `prefers-reduced-motion`: the colour change still
  * lands, the movement doesn't.

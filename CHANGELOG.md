@@ -12,6 +12,38 @@ take an update.
 
 ## [Unreleased]
 
+### Fixed
+
+- **The five `git_pr_*` nodes named packages that do not exist.** Their source,
+  docblocks and error messages told you to install
+  `@particle-academy/fancy-git-js` and `@particle-academy/fancy-git-github-js` —
+  **repo** names. The packages publish without the language suffix, as
+  `@particle-academy/fancy-git` / `particle-academy/fancy-git` (and
+  `-github`), so following the wiring instructions produced a 404 from npm.
+  **If you vendored a `git_pr_*` node before this, fix your import** — the
+  package you need is `@particle-academy/fancy-git`.
+
+- **`ui_effect` pointed at two packages left over from the one-repo-per-node
+  era.** `ui/effects.css` referenced
+  `@particle-academy/fancy-flow-node-ui-effect` (404, never republished after
+  the consolidation) and the PHP host's example imported from
+  `@particle-academy/fancy-flow-nodes`. Both now name the vendored path, which
+  is where the file actually lands.
+
+### Added
+
+- **The `git_pr_*` nodes declare their `fancyDependencies`.** They always needed
+  `fancy-git` plus a host adapter; nothing in the manifest said so, so the only
+  statement of it was a prose comment — and that comment was wrong. Declaring it
+  is what lets `fancy-cli` offer the install route that fits the project
+  (Composer in a Laravel app, npm in a Node one, or vendoring) instead of the
+  single route a bare npm name implies.
+
+- **CI runs the PHP backend.** `tests/php/` replays the same golden fixtures as
+  the TypeScript suite — that pairing IS the parity claim the manifests make —
+  but the workflow ran only the npm job, so it was never verified on push or PR.
+  Now a matrix over PHP 8.3 and 8.4 runs Pest alongside it.
+
 ### Changed
 
 - Widened the `particle-academy/fancy-flow-php` requirement from `^0.9` to `>=0.8 <2.0`, so a sibling

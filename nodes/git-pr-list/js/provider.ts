@@ -1,7 +1,7 @@
 /**
  * The seam between a workflow node and a hosted Git provider.
  *
- * `fancy-git-js` models providers as a `ProviderRegistry` **instance** — it has
+ * `@particle-academy/fancy-git` models providers as a `ProviderRegistry` **instance** — it has
  * no module singleton, deliberately, because a host may serve several
  * installations with different credentials. So a node cannot reach for a
  * provider; the host has to hand one over, the same arrangement fancy-flow uses
@@ -9,8 +9,8 @@
  *
  * ```ts
  * import { registerGitHost } from "@/components/fancy/flow-nodes/git-pr-open/js/provider";
- * import { ProviderRegistry } from "@particle-academy/fancy-git-js";
- * import { githubProvider } from "@particle-academy/fancy-git-github-js";
+ * import { ProviderRegistry } from "@particle-academy/fancy-git";
+ * import { githubProvider } from "@particle-academy/fancy-git-github";
  *
  * registerGitHost({
  *   registry: new ProviderRegistry().register(githubProvider({ token: env.GITHUB_TOKEN })),
@@ -24,7 +24,7 @@
 
 /** What the node needs from the host, narrowed to almost nothing. */
 export type GitHost = {
-  /** A `ProviderRegistry` from `@particle-academy/fancy-git-js`. */
+  /** A `ProviderRegistry` from `@particle-academy/fancy-git`. */
   registry: {
     get(kind: string): unknown;
   };
@@ -47,7 +47,7 @@ export function getGitHost(): GitHost | null {
   return host;
 }
 
-/** A repository, as `fancy-git-js` identifies one. */
+/** A repository, as `@particle-academy/fancy-git` identifies one. */
 export type RepoRef = { provider: string; owner: string; name: string; baseUrl?: string };
 
 /**
@@ -61,7 +61,7 @@ export function resolveTarget(config: Record<string, unknown>): { provider: any;
   const current = getGitHost();
   if (!current) {
     throw new Error(
-      "git_pr: no Git host registered. Call registerGitHost({ registry }) with a fancy-git-js " +
+      "git_pr: no Git host registered. Call registerGitHost({ registry }) with a @particle-academy/fancy-git " +
         "ProviderRegistry — the node has no credentials of its own and must not invent any.",
     );
   }

@@ -7,7 +7,7 @@ namespace FancyFlow\Nodes\GitPrChecks;
 /**
  * The seam between a workflow node and a hosted Git provider.
  *
- * `fancy-git-php` models providers as a `ProviderRegistry` **instance**, not a
+ * `particle-academy/fancy-git` models providers as a `ProviderRegistry` **instance**, not a
  * singleton — deliberately, because one app may serve several installations
  * with different credentials. So a node cannot reach for a provider; the host
  * hands one over, the same arrangement fancy-flow uses for LLM clients.

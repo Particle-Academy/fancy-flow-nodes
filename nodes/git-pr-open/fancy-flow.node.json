@@ -29,6 +29,22 @@
   "capabilities": {
     "gitProvider": "required"
   },
+  "fancyDependencies": [
+    {
+      "package": "fancy-git",
+      "npm": "@particle-academy/fancy-git",
+      "composer": "particle-academy/fancy-git",
+      "reason": "the provider contract this node acts through — the host hands it over as a ProviderRegistry",
+      "requirement": "required"
+    },
+    {
+      "package": "fancy-git-github",
+      "npm": "@particle-academy/fancy-git-github",
+      "composer": "particle-academy/fancy-git-github",
+      "reason": "one adapter per host you target — swap for fancy-git-gitlab or fancy-git-bitbucket",
+      "requirement": "optional"
+    }
+  ],
   "fixtures": "nodes/git-pr-open/fixtures/git-pr-open.json",
   "sideEffects": "unsafe-to-replay"
 }

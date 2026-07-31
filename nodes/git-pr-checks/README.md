@@ -3,8 +3,8 @@
 CI state for a revision — the gate a “merge when green” workflow routes on.
 
 One of the **PR-lifecycle** nodes in [`fancy-flow-nodes`](../../README.md). They wrap
-[`fancy-git-js`](https://github.com/Particle-Academy/fancy-git-js) /
-[`fancy-git-php`](https://github.com/Particle-Academy/fancy-git-php), whose provider contract is
+[`@particle-academy/fancy-git`](https://github.com/Particle-Academy/fancy-git-js) /
+[`particle-academy/fancy-git`](https://github.com/Particle-Academy/fancy-git-php), whose provider contract is
 **neutral across GitHub, GitLab and Bitbucket** — so the same graph runs against any of them.
 
 ```bash
@@ -30,7 +30,7 @@ registry. Once, at boot:
 
 ```ts
 import { registerGitHost } from "@/components/fancy/flow-nodes/git-pr-checks/js/provider";
-import { ProviderRegistry } from "@particle-academy/fancy-git-js";
+import { ProviderRegistry } from "@particle-academy/fancy-git";
 
 registerGitHost({
   registry: new ProviderRegistry().register(githubProvider({ token: env.GITHUB_TOKEN })),

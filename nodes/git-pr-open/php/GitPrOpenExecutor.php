@@ -28,7 +28,7 @@ final class GitPrOpenExecutor implements NodeExecutor
     {
         $config = $ctx->config();
         $host = $this->host ?? throw new \RuntimeException(
-            'git_pr: no Git host bound. Bind '.GitHost::class.' with a fancy-git-php ProviderRegistry — '
+            'git_pr: no Git host bound. Bind '.GitHost::class.' with a particle-academy/fancy-git ProviderRegistry — '
             .'the node has no credentials of its own and must not invent any.'
         );
         [$provider, $ref] = $host->resolve($config);

@@ -14,7 +14,7 @@ use Illuminate\Contracts\Broadcasting\Broadcaster;
  * hand each payload to the JS backend's DOM host:
  *
  * ```ts
- * import { createDomUiEffectHost } from "@particle-academy/fancy-flow-nodes/ui-effect";
+ * import { createDomUiEffectHost } from "@/components/fancy/flow-nodes/ui-effect/js/dom";
  *
  * const dom = createDomUiEffectHost();
  * Echo.private(`flow.${runId}`).listen(".ui.effect", (e) => dom.apply(e.effect));

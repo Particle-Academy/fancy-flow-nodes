@@ -1,6 +1,6 @@
 {
     "name": "particle-academy/fancy-flow-nodes",
-    "description": "The first-party fancy-flow node marketplace \u2014 vendored SOURCE, not a published package. `fancy-cli add node --backend=php` copies a node's php/ directory into your app.",
+    "description": "The first-party fancy-flow node marketplace — vendored SOURCE, not a published package. `fancy-cli add node --backend=php` copies a node's php/ directory into your app.",
     "keywords": [
         "fancy-flow",
         "workflow",
@@ -17,6 +17,7 @@
     "require-dev": {
         "illuminate/support": "^11.0|^12.0|^13.0",
         "orchestra/testbench": "^9.0|^10.0|^11.0",
+        "particle-academy/fancy-git": ">=0.2 <2.0",
         "pestphp/pest": "^3.0|^4.0"
     },
     "suggest": {
@@ -40,7 +41,12 @@
             "FancyFlow\\Nodes\\GitPush\\": "nodes/git-push/php/",
             "FancyFlow\\Nodes\\GitPull\\": "nodes/git-pull/php/",
             "FancyFlow\\Nodes\\LlmInput\\": "nodes/llm-input/php/",
-            "FancyFlow\\Nodes\\LlmScreen\\": "nodes/llm-screen/php/"
+            "FancyFlow\\Nodes\\LlmScreen\\": "nodes/llm-screen/php/",
+            "FancyFlow\\Nodes\\GitIssueOpen\\": "nodes/git-issue-open/php/",
+            "FancyFlow\\Nodes\\GitIssueGet\\": "nodes/git-issue-get/php/",
+            "FancyFlow\\Nodes\\GitIssueList\\": "nodes/git-issue-list/php/",
+            "FancyFlow\\Nodes\\GitIssueUpdate\\": "nodes/git-issue-update/php/",
+            "FancyFlow\\Nodes\\GitIssueComment\\": "nodes/git-issue-comment/php/"
         }
     },
     "autoload-dev": {

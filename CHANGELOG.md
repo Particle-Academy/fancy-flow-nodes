@@ -12,6 +12,31 @@ take an update.
 
 ## [Unreleased]
 
+### Added
+
+- **Five issue nodes** — the marketplace could open a pull request but could not
+  file a bug. Requested by the Moic Suite integration, who needed them for an
+  error-tracking Op.
+
+  | Kind | Ports | Replay |
+  |---|---|---|
+  | `git_issue_open` | `out` | **unsafe-to-replay** |
+  | `git_issue_get` | `open` / `closed` | idempotent |
+  | `git_issue_list` | `found` / `none` | idempotent |
+  | `git_issue_update` | `out` | idempotent |
+  | `git_issue_comment` | `out` | **unsafe-to-replay** |
+
+  **Issue tracking is an OPTIONAL provider capability.** `IssueProvider` is a
+  separate contract from `GitProvider` — a self-hosted remote with no tracker is
+  a perfectly good provider — so each node narrows the provider first and **fails
+  loudly** on a host that has none, rather than silently doing nothing. Both test
+  suites assert that.
+
+  Needs `fancy-git` >= 0.2 and, today, the **GitHub** adapter >= 0.2 — the only
+  one implementing the contract. GitLab and Bitbucket do not yet, and the check
+  reports that honestly instead of failing mid-run.
+
+
 ### Fixed
 
 - **A vendored node did not work on a PHP host.** Three separate breakages, all

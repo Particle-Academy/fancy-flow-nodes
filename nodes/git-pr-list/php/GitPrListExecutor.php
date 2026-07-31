@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitPrList;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -15,6 +16,16 @@ use FancyFlow\Runtime\RunEvent;
  * Two ports rather than one: "no open PRs" is a decision in nearly every
  * workflow that asks, and a downstream count check is one somebody forgets.
  */
+#[FlowNode(
+    name: '@particle-academy/git_pr_list',
+    category: 'io',
+    label: 'List Pull Requests',
+    description: 'List a repository\'s pull requests, branching on whether any matched.',
+    icon: '☰',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'found', 'label' => 'found'], ['id' => 'none', 'label' => 'none']],
+    aliases: ['git_pr_list'],
+)]
 final class GitPrListExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?GitHost $host = null) {}

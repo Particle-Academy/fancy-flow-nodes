@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { llmInputExecutor } from "../js/executor";
 
 export const LLM_INPUT_KIND = "@particle-academy/llm_input";
 
@@ -70,5 +69,4 @@ export const llmInputKind: NodeKindDefinition = {
     },
   ],
   defaultConfig: { maxFields: 8, includeContext: true },
-  executor: llmInputExecutor,
 };

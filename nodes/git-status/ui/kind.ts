@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitStatusExecutor } from "../js/executor";
 
 export const GIT_STATUS_KIND = "@particle-academy/git_status";
 
@@ -31,6 +30,4 @@ export const gitStatusKind: NodeKindDefinition = {
       placeholder: "(host default)",
     },
   ],
-  defaultConfig: {},
-  executor: gitStatusExecutor,
-};
+  defaultConfig: {},};

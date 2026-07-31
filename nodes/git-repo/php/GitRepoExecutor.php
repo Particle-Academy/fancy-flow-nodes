@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitRepo;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -17,6 +18,16 @@ use FancyFlow\Runtime\RunEvent;
  * develop or trunk. This is the node that answers it, so a graph can read the
  * default branch instead of assuming it.
  */
+#[FlowNode(
+    name: '@particle-academy/git_repo',
+    category: 'io',
+    label: 'Repository',
+    description: 'Hosted repository metadata — default branch, visibility, URLs.',
+    icon: '◈',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'out']],
+    aliases: ['git_repo'],
+)]
 final class GitRepoExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?GitHost $host = null) {}

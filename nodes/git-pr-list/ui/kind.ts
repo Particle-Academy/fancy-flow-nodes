@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitPrListExecutor } from "../js/executor";
 
 const REPO_FIELDS = [
   {
@@ -57,5 +56,4 @@ export const gitPrListKind: NodeKindDefinition = {
     { key: "limit", label: "Limit", type: "number", min: 1, max: 100, default: 20 },
   ],
   defaultConfig: { provider: "github", state: "open", limit: 20 },
-  executor: gitPrListExecutor,
 };

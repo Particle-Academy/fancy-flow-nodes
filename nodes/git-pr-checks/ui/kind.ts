@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitPrChecksExecutor } from "../js/executor";
 
 const REPO_FIELDS = [
   {
@@ -52,5 +51,4 @@ export const gitPrChecksKind: NodeKindDefinition = {
     },
   ],
   defaultConfig: { provider: "github" },
-  executor: gitPrChecksExecutor,
 };

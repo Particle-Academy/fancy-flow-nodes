@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitStatus;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -17,6 +18,16 @@ use FancyFlow\Runtime\RunEvent;
  * A workflow that commits without checking creates empty commits; one that
  * pushes without checking pushes nothing and reports success.
  */
+#[FlowNode(
+    name: '@particle-academy/git_status',
+    category: 'io',
+    label: 'Working Tree Status',
+    description: 'Branch, ahead/behind and changed files — routes on whether the tree is clean.',
+    icon: '◔',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'clean', 'label' => 'clean'], ['id' => 'dirty', 'label' => 'dirty']],
+    aliases: ['git_status'],
+)]
 final class GitStatusExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?RepoHost $host = null) {}

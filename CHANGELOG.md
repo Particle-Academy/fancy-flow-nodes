@@ -12,6 +12,32 @@ take an update.
 
 ## [Unreleased]
 
+### Fixed
+
+- **A vendored node did not work on a PHP host.** Three separate breakages, all
+  reported by the Moic Suite integration after they hand-patched every node they
+  installed:
+
+  1. **`ui/kind.ts` imported `../js/executor`.** `fancy-cli` vendors `ui/` on
+     every host but `js/` only for a TypeScript backend, so on PHP that import
+     dangled and the editor build failed. The surface no longer carries an
+     executor at all: `ui/kind.ts` is the palette entry, and a new `js/kind.ts`
+     exports `<name>RunnableKind` — the same surface with the executor attached —
+     for hosts that execute on TS. **If you register a kind on a TS host, import
+     from `js/kind.ts` now**; `ui/kind.ts` still exports the surface, just
+     without an executor.
+  2. **No `#[FlowNode]` attribute on any PHP executor**, so `flow:discover`
+     found nothing and every node had to be hand-registered. All 16 now carry it,
+     with the kind id, category, label, description, icon, ports and aliases.
+  3. **PSR-4 could not autoload the vendored PHP** — a `fancy-cli` bug, fixed in
+     `fancy-cli` 0.7.0. The class landed at `app/Flow/Nodes/git-pr-open/php/`
+     while declaring `App\Flow\Nodes\GitPrOpen`.
+
+- **Nothing said what to do after vendoring.** Each node's README now carries a
+  **Register it** section, and the same steps come back from the `fancy-ui` MCP
+  and print from `fancy-cli`. Copying a node is not installing it — until the
+  host registers the kind, the files are source in a directory.
+
 ### Added
 
 - **Eight more git nodes — the marketplace covered pull requests and nothing

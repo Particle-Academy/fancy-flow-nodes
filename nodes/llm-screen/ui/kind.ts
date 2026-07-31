@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { llmScreenExecutor } from "../js/executor";
 
 export const LLM_SCREEN_KIND = "@particle-academy/llm_screen";
 
@@ -68,5 +67,4 @@ export const llmScreenKind: NodeKindDefinition = {
     },
   ],
   defaultConfig: { includeContext: true, present: true },
-  executor: llmScreenExecutor,
 };

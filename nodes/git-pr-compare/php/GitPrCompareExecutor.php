@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitPrCompare;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -15,6 +16,16 @@ use FancyFlow\Runtime\RunEvent;
  * Routes on whether there is anything to merge. "0 commits ahead" is the answer
  * that most often should stop a workflow before it opens an empty pull request.
  */
+#[FlowNode(
+    name: '@particle-academy/git_pr_compare',
+    category: 'logic',
+    label: 'Compare Refs',
+    description: 'Compare two branches or SHAs — commits between them, and which way they diverge.',
+    icon: '⇄',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'ahead', 'label' => 'ahead'], ['id' => 'same', 'label' => 'nothing to merge']],
+    aliases: ['git_pr_compare'],
+)]
 final class GitPrCompareExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?GitHost $host = null) {}

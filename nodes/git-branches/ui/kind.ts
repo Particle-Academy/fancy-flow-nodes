@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitBranchesExecutor } from "../js/executor";
 
 export const GIT_BRANCHES_KIND = "@particle-academy/git_branches";
 
@@ -18,6 +17,4 @@ export const gitBranchesKind: NodeKindDefinition = {
     { key: "repo", label: "Repository", type: "text", placeholder: "(host default)" },
     { key: "includeRemote", label: "Include remote branches", type: "switch", default: false },
   ],
-  defaultConfig: { includeRemote: false },
-  executor: gitBranchesExecutor,
-};
+  defaultConfig: { includeRemote: false },};

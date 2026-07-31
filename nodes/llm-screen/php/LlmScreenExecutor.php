@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\LlmScreen;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\RunEvent;
@@ -24,6 +25,16 @@ use FancyFlow\Runtime\RunEvent;
  * what arrives on someone's screen is an error message. On a queue worker there
  * is nobody watching to notice, so the node refuses instead.
  */
+#[FlowNode(
+    name: '@particle-academy/llm_screen',
+    category: 'io',
+    label: 'AI Screen',
+    description: 'Let a model build the interface this step shows, from the components the host registered — rendered by fancy-screens\' schema surface.',
+    icon: '▦',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'out', 'label' => 'schema']],
+    aliases: ['llm_screen'],
+)]
 final class LlmScreenExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?LlmScreenHost $host = null) {}

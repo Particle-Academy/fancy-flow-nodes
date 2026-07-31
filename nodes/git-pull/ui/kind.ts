@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitPullExecutor } from "../js/executor";
 
 export const GIT_PULL_KIND = "@particle-academy/git_pull";
 
@@ -23,6 +22,4 @@ export const gitPullKind: NodeKindDefinition = {
     { key: "branch", label: "Branch", type: "text", placeholder: "(current)" },
     { key: "propose", label: "Propose only (do not perform)", type: "switch", default: false },
   ],
-  defaultConfig: { propose: false },
-  executor: gitPullExecutor,
-};
+  defaultConfig: { propose: false },};

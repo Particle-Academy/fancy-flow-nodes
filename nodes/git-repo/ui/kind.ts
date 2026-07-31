@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitRepoExecutor } from "../js/executor";
 
 export const GIT_REPO_KIND = "@particle-academy/git_repo";
 
@@ -35,6 +34,4 @@ export const gitRepoKind: NodeKindDefinition = {
     { key: "owner", label: "Owner", type: "text", placeholder: "Particle-Academy" },
     { key: "repo", label: "Repository", type: "text", placeholder: "fancy-flow" },
   ],
-  defaultConfig: { provider: "github" },
-  executor: gitRepoExecutor,
-};
+  defaultConfig: { provider: "github" },};

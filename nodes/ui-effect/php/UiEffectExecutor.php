@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\UiEffect;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\RunEvent;
@@ -26,6 +27,16 @@ use FancyFlow\Runtime\RunEvent;
  * worker there is nobody watching to notice, which makes it worse here than in
  * a browser.
  */
+#[FlowNode(
+    name: '@particle-academy/ui_effect',
+    category: 'io',
+    label: 'UI Effect',
+    description: 'Add, swap or remove a class, set a CSS variable, or flash a style on a live surface — theme a whole page or pulse one card from a workflow.',
+    icon: '✨',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'out']],
+    aliases: ['ui_effect'],
+)]
 final class UiEffectExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?UiEffectHost $host = null) {}

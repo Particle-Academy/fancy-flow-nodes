@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitCheckout;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -17,6 +18,16 @@ use FancyFlow\Runtime\RunEvent;
  * approve. A workflow that moves someone else working copy under them is
  * exactly the case that wants a pause.
  */
+#[FlowNode(
+    name: '@particle-academy/git_checkout',
+    category: 'io',
+    label: 'Checkout',
+    description: 'Switch a working copy to a branch or revision — or propose it for approval.',
+    icon: '⤳',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'done', 'label' => 'done'], ['id' => 'proposed', 'label' => 'proposed']],
+    aliases: ['git_checkout'],
+)]
 final class GitCheckoutExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?RepoHost $host = null) {}

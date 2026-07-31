@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitDiffExecutor } from "../js/executor";
 
 export const GIT_DIFF_KIND = "@particle-academy/git_diff";
 
@@ -23,6 +22,4 @@ export const gitDiffKind: NodeKindDefinition = {
     { key: "to", label: "To", type: "text", placeholder: "(working tree)" },
     { key: "staged", label: "Staged only", type: "switch", default: false },
   ],
-  defaultConfig: { staged: false },
-  executor: gitDiffExecutor,
-};
+  defaultConfig: { staged: false },};

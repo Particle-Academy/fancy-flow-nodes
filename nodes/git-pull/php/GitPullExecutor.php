@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitPull;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -16,6 +17,16 @@ use FancyFlow\Runtime\RunEvent;
  * and a workflow that discovers that on a queue worker at 3am should have been
  * able to stage it for a human first.
  */
+#[FlowNode(
+    name: '@particle-academy/git_pull',
+    category: 'io',
+    label: 'Pull',
+    description: 'Pull a working copy from a remote — or propose it for approval.',
+    icon: '↧',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'done', 'label' => 'done'], ['id' => 'proposed', 'label' => 'proposed']],
+    aliases: ['git_pull'],
+)]
 final class GitPullExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?RepoHost $host = null) {}

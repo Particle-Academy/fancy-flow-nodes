@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitPrChecks;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -17,6 +18,16 @@ use FancyFlow\Runtime\RunEvent;
  * workflow either abandons work that was still building, or auto-merges a
  * repository whose CI was never configured.
  */
+#[FlowNode(
+    name: '@particle-academy/git_pr_checks',
+    category: 'logic',
+    label: 'Check Status',
+    description: 'CI state for a revision — routes on passing, failing, pending, or no checks at all.',
+    icon: '✓',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'passing', 'label' => 'passing'], ['id' => 'failing', 'label' => 'failing'], ['id' => 'pending', 'label' => 'pending'], ['id' => 'none', 'label' => 'no checks']],
+    aliases: ['git_pr_checks'],
+)]
 final class GitPrChecksExecutor implements NodeExecutor
 {
     private const FAILED = ['failed', 'failure', 'error'];

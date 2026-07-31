@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitPrOpen;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\RunEvent;
@@ -20,6 +21,16 @@ use FancyFlow\Runtime\RunEvent;
  * after a network blip would open a second PR for the same branch, and nothing
  * downstream would notice.
  */
+#[FlowNode(
+    name: '@particle-academy/git_pr_open',
+    category: 'io',
+    label: 'Open Pull Request',
+    description: 'Open a pull request from one branch into another, on GitHub, GitLab or Bitbucket.',
+    icon: '⇡',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'out']],
+    aliases: ['git_pr_open'],
+)]
 final class GitPrOpenExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?GitHost $host = null) {}

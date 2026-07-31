@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitLogExecutor } from "../js/executor";
 
 export const GIT_LOG_KIND = "@particle-academy/git_log";
 
@@ -23,6 +22,4 @@ export const gitLogKind: NodeKindDefinition = {
     { key: "limit", label: "Limit", type: "number", min: 1, max: 500, default: 20 },
     { key: "skip", label: "Skip", type: "number", min: 0, default: 0 },
   ],
-  defaultConfig: { limit: 20, skip: 0 },
-  executor: gitLogExecutor,
-};
+  defaultConfig: { limit: 20, skip: 0 },};

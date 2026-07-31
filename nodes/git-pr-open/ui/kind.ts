@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitPrOpenExecutor } from "../js/executor";
 
 /** Repository fields every git-pr-* node shares. Duplicated per node so a
  *  vendored node stays self-contained and editable in place. */
@@ -53,5 +52,4 @@ export const gitPrOpenKind: NodeKindDefinition = {
     },
   ],
   defaultConfig: { provider: "github", targetBranch: "main", draft: false },
-  executor: gitPrOpenExecutor,
 };

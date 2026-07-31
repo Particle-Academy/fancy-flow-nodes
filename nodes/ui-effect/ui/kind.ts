@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { uiEffectExecutor } from "../js/executor";
 
 /** The canonical kind id. Namespaced, and what gets written into documents. */
 export const UI_EFFECT_KIND = "@particle-academy/ui_effect";
@@ -93,6 +92,4 @@ export const uiEffectKind: NodeKindDefinition = {
     name: "",
     durationMs: 0,
   },
-
-  executor: uiEffectExecutor,
 };

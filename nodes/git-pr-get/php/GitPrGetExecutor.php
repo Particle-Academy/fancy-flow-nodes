@@ -4,10 +4,21 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitPrGet;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 
 /** Read one pull request in full — body, state, mergeability, timestamps. */
+#[FlowNode(
+    name: '@particle-academy/git_pr_get',
+    category: 'io',
+    label: 'Get Pull Request',
+    description: 'Read one pull request — body, state, mergeability, timestamps.',
+    icon: '◎',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'out']],
+    aliases: ['git_pr_get'],
+)]
 final class GitPrGetExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?GitHost $host = null) {}

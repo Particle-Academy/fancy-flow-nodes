@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitDiff;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -16,6 +17,16 @@ use FancyFlow\Runtime\RunEvent;
  * must NOT continue into a commit or a pull request — so it gets its own port
  * rather than an empty value on the same one.
  */
+#[FlowNode(
+    name: '@particle-academy/git_diff',
+    category: 'io',
+    label: 'Diff',
+    description: 'Diff a working copy — working tree, staged, or between two revisions.',
+    icon: '±',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'changed', 'label' => 'changed'], ['id' => 'empty', 'label' => 'empty']],
+    aliases: ['git_diff'],
+)]
 final class GitDiffExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?RepoHost $host = null) {}

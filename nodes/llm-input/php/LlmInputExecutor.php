@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\LlmInput;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\RunEvent;
@@ -24,6 +25,16 @@ use FancyFlow\Runtime\RunEvent;
  * kind of wait. `generated: true` is the only addition, so a UI can say the
  * questions were written by a model rather than implying a person wrote them.
  */
+#[FlowNode(
+    name: '@particle-academy/llm_input',
+    category: 'human',
+    label: 'AI Form',
+    description: 'Ask a model to write the form this step pauses on, from the run\'s own data — for the steps whose questions are not known in advance.',
+    icon: '✦',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'out', 'label' => 'values']],
+    aliases: ['llm_input'],
+)]
 final class LlmInputExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?LlmFormHost $host = null) {}

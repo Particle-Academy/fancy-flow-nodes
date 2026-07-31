@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitBranches;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -16,6 +17,16 @@ use FancyFlow\Runtime\RunEvent;
  * finding it means scanning for `current` — a loop each consumer would
  * otherwise rewrite.
  */
+#[FlowNode(
+    name: '@particle-academy/git_branches',
+    category: 'io',
+    label: 'Branches',
+    description: 'List a working copy\'s branches and report which one is checked out.',
+    icon: '⑂',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'out']],
+    aliases: ['git_branches'],
+)]
 final class GitBranchesExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?RepoHost $host = null) {}

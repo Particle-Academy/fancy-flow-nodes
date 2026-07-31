@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitPushExecutor } from "../js/executor";
 
 export const GIT_PUSH_KIND = "@particle-academy/git_push";
 
@@ -23,6 +22,4 @@ export const gitPushKind: NodeKindDefinition = {
     { key: "branch", label: "Branch", type: "text", placeholder: "(current)" },
     { key: "propose", label: "Propose only (do not perform)", type: "switch", default: false },
   ],
-  defaultConfig: { remote: "origin", propose: false },
-  executor: gitPushExecutor,
-};
+  defaultConfig: { remote: "origin", propose: false },};

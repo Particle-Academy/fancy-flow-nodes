@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FancyFlow\Nodes\GitLog;
 
+use FancyFlow\Attributes\FlowNode;
 use FancyFlow\Contracts\NodeExecutor;
 use FancyFlow\Runtime\ExecutionContext;
 use FancyFlow\Runtime\Port;
@@ -16,6 +17,16 @@ use FancyFlow\Runtime\RunEvent;
  * a routing question, and an empty array on a single port is a check somebody
  * forgets downstream.
  */
+#[FlowNode(
+    name: '@particle-academy/git_log',
+    category: 'io',
+    label: 'Commit Log',
+    description: 'Read commits from a working copy, branching on whether any matched.',
+    icon: '≡',
+    inputs: [['id' => 'in']],
+    outputs: [['id' => 'found', 'label' => 'found'], ['id' => 'none', 'label' => 'none']],
+    aliases: ['git_log'],
+)]
 final class GitLogExecutor implements NodeExecutor
 {
     public function __construct(private readonly ?RepoHost $host = null) {}

@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitCheckoutExecutor } from "../js/executor";
 
 export const GIT_CHECKOUT_KIND = "@particle-academy/git_checkout";
 
@@ -27,6 +26,4 @@ export const gitCheckoutKind: NodeKindDefinition = {
     { key: "target", label: "Target", type: "text", placeholder: "main", required: true },
     { key: "propose", label: "Propose only (do not perform)", type: "switch", default: false },
   ],
-  defaultConfig: { propose: false },
-  executor: gitCheckoutExecutor,
-};
+  defaultConfig: { propose: false },};

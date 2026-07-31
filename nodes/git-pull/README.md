@@ -41,3 +41,31 @@ refuses outright.
 Propose-aware for the same reason as push: a pull can conflict, and a workflow
 that discovers that on a queue worker at 3am should have been able to stage it
 for a human first. Declared `unsafe-to-replay`.
+
+## Register it
+
+**Copying a node is not installing it.** Until the host registers the kind, these
+files are source in a directory: no palette entry, and a graph naming the kind
+fails at run time.
+
+**On a PHP host**
+
+```bash
+composer dump-autoload          # the executor is PSR-4 under your node namespace
+php artisan flow:discover       # reads #[FlowNode] and registers the kind
+```
+
+Then bind this node's `*Host` class (it sits beside the executor) in a service
+provider. The React kind under your components directory is for the **editor**
+and deliberately carries no executor — PHP runs the node, the browser draws it.
+
+**On a TypeScript host**
+
+```ts
+import { gitPullRunnableKind } from "@/components/fancy/flow-nodes/git-pull/js/kind";
+
+registerNodeKind(gitPullRunnableKind);
+```
+
+`js/kind.ts` is the surface **with** the executor attached. `ui/kind.ts` is the
+surface **without** one — import that only when something else executes the node.

@@ -1,5 +1,4 @@
 import type { NodeKindDefinition } from "@particle-academy/fancy-flow/engine";
-import { gitPrCompareExecutor } from "../js/executor";
 
 const REPO_FIELDS = [
   {
@@ -44,5 +43,4 @@ export const gitPrCompareKind: NodeKindDefinition = {
     { key: "head", label: "Head", type: "text", required: true, placeholder: "feature/x" },
   ],
   defaultConfig: { provider: "github", base: "main" },
-  executor: gitPrCompareExecutor,
 };

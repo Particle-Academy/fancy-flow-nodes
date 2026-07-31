@@ -12,6 +12,46 @@ take an update.
 
 ## [Unreleased]
 
+### Added
+
+- **Eight more git nodes — the marketplace covered pull requests and nothing
+  else.** The five `git_pr_*` nodes all act on a hosted provider's API; there was
+  no node for a **local working copy** at all, so a graph could open a pull
+  request but could not check whether there was anything to open one for.
+
+  **Local working copy** (new `gitRepository` capability):
+
+  | Kind | Ports | Replay |
+  |---|---|---|
+  | `git_status` | `clean` / `dirty` | idempotent |
+  | `git_log` | `found` / `none` | idempotent |
+  | `git_branches` | `out` | idempotent |
+  | `git_diff` | `changed` / `empty` | idempotent |
+  | `git_checkout` | `done` / `proposed` | **unsafe-to-replay** |
+  | `git_push` | `done` / `proposed` | **unsafe-to-replay** |
+  | `git_pull` | `done` / `proposed` | **unsafe-to-replay** |
+
+  **Hosted provider** (existing `gitProvider` capability):
+
+  | Kind | Ports | Replay |
+  |---|---|---|
+  | `git_repo` | `out` | idempotent |
+
+- **`propose` is a first-class port on every mutating node.** With it on,
+  `fancy-git` returns an `OperationProposal` and the node routes to `proposed`
+  **without touching the repository** — agents propose, humans confirm. Both test
+  suites assert that a propose performs nothing, because a `propose` that quietly
+  performed anyway would be worse than not having the flag at all.
+
+- **`repo` is a name the host resolves, never a filesystem path.** A graph
+  carrying a path would let its author point a node anywhere the worker can
+  reach. The host maps names to working copies and can refuse outright.
+
+- **A separate capability for local repositories.** `gitRepository` rather than
+  reusing `gitProvider`: reading pull requests over an API and driving `git` in a
+  checkout have different credentials, different failure modes and very different
+  blast radius. A host that wants the former should not have to grant the latter.
+
 ### Fixed
 
 - **The five `git_pr_*` nodes named packages that do not exist.** Their source,

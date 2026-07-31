@@ -19,6 +19,10 @@ import { gitPrChecksKind } from "../../nodes/git-pr-checks/ui/kind";
 import { gitPrChecksExecutor } from "../../nodes/git-pr-checks/js/executor";
 import { registerGitHost as registerChecksHost } from "../../nodes/git-pr-checks/js/provider";
 
+import { gitRepoKind } from "../../nodes/git-repo/ui/kind";
+import { gitRepoExecutor } from "../../nodes/git-repo/js/executor";
+import { registerGitHost as registerRepoHost } from "../../nodes/git-repo/js/provider";
+
 import { gitPrCompareKind } from "../../nodes/git-pr-compare/ui/kind";
 import { gitPrCompareExecutor } from "../../nodes/git-pr-compare/js/executor";
 import { registerGitHost as registerCompareHost } from "../../nodes/git-pr-compare/js/provider";
@@ -40,7 +44,14 @@ import { registerGitHost as registerCompareHost } from "../../nodes/git-pr-compa
 const fakeProvider = {
   kind: "github",
   identify: () => null,
-  repository: async () => ({ provider: "github", owner: "a", name: "b" }),
+  repository: async () => ({
+    provider: "github",
+    owner: "a",
+    name: "b",
+    defaultBranch: "main",
+    visibility: "public",
+    webUrl: "https://example.test/a/b",
+  }),
 
   createReview: async (_ref: unknown, input: any) => ({
     id: "1",
@@ -93,6 +104,7 @@ const NODES = [
   { dir: "git-pr-get", kind: gitPrGetKind, executor: gitPrGetExecutor, register: registerGetHost },
   { dir: "git-pr-checks", kind: gitPrChecksKind, executor: gitPrChecksExecutor, register: registerChecksHost },
   { dir: "git-pr-compare", kind: gitPrCompareKind, executor: gitPrCompareExecutor, register: registerCompareHost },
+  { dir: "git-repo", kind: gitRepoKind, executor: gitRepoExecutor, register: registerRepoHost },
 ];
 
 for (const node of NODES) registerNodeKind(node.kind);

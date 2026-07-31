@@ -31,6 +31,14 @@
             "FancyFlow\\Nodes\\GitPrGet\\": "nodes/git-pr-get/php/",
             "FancyFlow\\Nodes\\GitPrChecks\\": "nodes/git-pr-checks/php/",
             "FancyFlow\\Nodes\\GitPrCompare\\": "nodes/git-pr-compare/php/",
+            "FancyFlow\\Nodes\\GitRepo\\": "nodes/git-repo/php/",
+            "FancyFlow\\Nodes\\GitStatus\\": "nodes/git-status/php/",
+            "FancyFlow\\Nodes\\GitLog\\": "nodes/git-log/php/",
+            "FancyFlow\\Nodes\\GitBranches\\": "nodes/git-branches/php/",
+            "FancyFlow\\Nodes\\GitDiff\\": "nodes/git-diff/php/",
+            "FancyFlow\\Nodes\\GitCheckout\\": "nodes/git-checkout/php/",
+            "FancyFlow\\Nodes\\GitPush\\": "nodes/git-push/php/",
+            "FancyFlow\\Nodes\\GitPull\\": "nodes/git-pull/php/",
             "FancyFlow\\Nodes\\LlmInput\\": "nodes/llm-input/php/",
             "FancyFlow\\Nodes\\LlmScreen\\": "nodes/llm-screen/php/"
         }

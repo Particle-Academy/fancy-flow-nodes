@@ -35,6 +35,18 @@ function fakeProvider(): object
 {
     return new class
     {
+        public function repository(array $ref): array
+        {
+            return [
+                "provider" => "github",
+                "owner" => "a",
+                "name" => "b",
+                "defaultBranch" => "main",
+                "visibility" => "public",
+                "webUrl" => "https://example.test/a/b",
+            ];
+        }
+
         public function createReview(array $ref, array $input): array
         {
             return [
@@ -104,6 +116,9 @@ dataset('pr nodes', [
     'git-pr-get' => ['git-pr-get', GitPrGetExecutor::class, \FancyFlow\Nodes\GitPrGet\GitHost::class],
     'git-pr-checks' => ['git-pr-checks', GitPrChecksExecutor::class, \FancyFlow\Nodes\GitPrChecks\GitHost::class],
     'git-pr-compare' => ['git-pr-compare', GitPrCompareExecutor::class, \FancyFlow\Nodes\GitPrCompare\GitHost::class],
+    // Not a PR node, but it acts on the same hosted-provider seam, so it belongs
+    // in the same harness rather than a second copy of it.
+    'git-repo' => ['git-repo', \FancyFlow\Nodes\GitRepo\GitRepoExecutor::class, \FancyFlow\Nodes\GitRepo\GitHost::class],
 ]);
 
 it('runs every golden fixture the TypeScript backend runs', function (string $dir, string $executorClass, string $hostClass) {

@@ -1,3 +1,16 @@
+> [!WARNING]
+> **Archived on 2026-09-13. This repository is not where nodes live, and its copies are stale.**
+>
+> A fancy-flow node is vendored source, never a package, so there is no node repository to install from.
+> The first-party nodes are maintained in the showcase, beside the registry that serves them, and this
+> repository stopped receiving them on 2026-07-31.
+>
+> - **Install a node:** `npx fancy-cli@latest add node <kind>`, e.g. `npx fancy-cli@latest add node @particle-academy/ui_effect`
+> - **Browse the catalog:** https://ui.particle.academy/r/nodes/index.json
+> - **From an agent:** the `fancy-ui` MCP server at https://ui.particle.academy/mcp (`list_nodes`, `search_nodes`, `get_node`, `node_install_instructions`)
+>
+> Nothing below this notice is maintained.
+
 # @particle-academy/fancy-flow-nodes
 
 The first-party **node marketplace** for [fancy-flow](https://github.com/Particle-Academy/fancy-flow).
